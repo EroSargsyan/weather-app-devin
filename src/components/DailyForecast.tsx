@@ -37,13 +37,7 @@ const DailyForecast: React.FC<IDailyForecastProps> = ({
           {selectedDay === 0 ? (
             <ForecastItems>
               <ForecastItem key={dailyForecast[selectedDay][0].dt}>
-                <Time>
-                  {formatDate(dailyForecast[selectedDay][0].dt).slice(0, 3)}{' '}
-                  {new Date(dailyForecast[selectedDay][0].dt * 1000).toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </Time>
+                <Time>{formatDate(dailyForecast[selectedDay][0].dt)}</Time>
                 <WeatherContainer>
                   <WeatherIcon
                     src={`https://openweathermap.org/img/wn/${dailyForecast[selectedDay][0].weather[0].icon}.png`}
@@ -64,13 +58,7 @@ const DailyForecast: React.FC<IDailyForecastProps> = ({
                 const forecastItem = findForecastForTime(dailyForecast[selectedDay], currentHour);
                 return (
                   <ForecastItem key={forecastItem.dt}>
-                    <Time>
-                      {formatDate(forecastItem.dt).slice(0, 3)}{' '}
-                      {new Date(forecastItem.dt * 1000).toLocaleTimeString('en-US', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
-                    </Time>
+                    <Time>{formatDate(forecastItem.dt)} </Time>
                     <WeatherContainer>
                       <WeatherIcon
                         src={`https://openweathermap.org/img/wn/${forecastItem.weather[0].icon}.png`}
