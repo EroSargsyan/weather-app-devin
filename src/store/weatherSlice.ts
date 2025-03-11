@@ -43,6 +43,35 @@ export const fetchWeatherByCity = createAsyncThunk(
   },
 );
 
+export const fetchWeatherByCoords = createAsyncThunk(
+  'weather/fetchByCoords',
+  async (coords: { lat: number; lon: number }, { rejectWithValue, getState }) => {
+    try {
+      const { weather } = getState() as { weather: IWeatherState };
+      const { unit } = weather;
+
+      const currentWeatherResponse = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&units=${unit}&appid=${API_KEY}`,
+      );
+
+      const forecastResponse = await axios.get(
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&units=${unit}&appid=${API_KEY}`,
+      );
+
+      return {
+        currentWeather: currentWeatherResponse.data,
+        forecast: forecastResponse.data,
+        city: currentWeatherResponse.data.name,
+      };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data.message || 'Failed to fetch weather data');
+      }
+      return rejectWithValue('An unknown error occurred');
+    }
+  },
+);
+
 const weatherSlice = createSlice({
   name: 'weather',
   initialState,
@@ -68,6 +97,21 @@ const weatherSlice = createSlice({
         state.selectedDay = 0;
       })
       .addCase(fetchWeatherByCity.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchWeatherByCoords.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchWeatherByCoords.fulfilled, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.currentWeather = action.payload.currentWeather;
+        state.forecast = action.payload.forecast;
+        state.city = action.payload.city;
+        state.selectedDay = 0;
+      })
+      .addCase(fetchWeatherByCoords.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });
