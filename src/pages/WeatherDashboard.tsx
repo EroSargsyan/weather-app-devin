@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
-import { fetchWeatherByCity, fetchWeatherByCoords, toggleUnit } from '../store/weatherSlice';
+import {
+  fetchWeatherByCity,
+  fetchWeatherByCoords,
+  setSelectedDay,
+  toggleUnit,
+} from '../store/weatherSlice';
 
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorModal from '../components/ErrorModal';
@@ -9,6 +14,8 @@ import SearchBar from '../components/SearchBar';
 import UnitSwitch from '../components/UnitSwitch';
 import CurrentWeather from '../components/CurrentWeather';
 import HourlyForecast from '../components/HourlyForecast';
+import { groupForecastByDay } from '../utils/weatherUtils';
+import DailyForecast from '../components/DailyForecast';
 
 const WeatherDashboard: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -16,7 +23,27 @@ const WeatherDashboard: React.FC = () => {
     (state) => state.weather,
   );
 
+  const [groupedForecast, setGroupedForecast] = useState<any[][]>([]);
   const [showError, setShowError] = useState(false);
+
+  const handleSearch = (searchCity: string) => {
+    dispatch(fetchWeatherByCity(searchCity));
+  };
+
+  const handleUnitToggle = () => {
+    dispatch(toggleUnit());
+    if (city) {
+      dispatch(fetchWeatherByCity(city));
+    }
+  };
+
+  const handleCloseError = () => {
+    setShowError(false);
+  };
+
+  const handleDaySelect = (index: number) => {
+    dispatch(setSelectedDay(index));
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -40,25 +67,17 @@ const WeatherDashboard: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (forecast && forecast.list && forecast.list.length > 0) {
+      const grouped = groupForecastByDay(forecast.list);
+      setGroupedForecast(grouped);
+    }
+  }, [forecast]);
+
+  useEffect(() => {
     if (error) {
       setShowError(true);
     }
   }, [error]);
-
-  const handleSearch = (searchCity: string) => {
-    dispatch(fetchWeatherByCity(searchCity));
-  };
-
-  const handleUnitToggle = () => {
-    dispatch(toggleUnit());
-    if (city) {
-      dispatch(fetchWeatherByCity(city));
-    }
-  };
-
-  const handleCloseError = () => {
-    setShowError(false);
-  };
 
   return (
     <Container>
@@ -78,7 +97,18 @@ const WeatherDashboard: React.FC = () => {
             {currentWeather ? <CurrentWeather data={currentWeather} unit={unit} /> : null}
 
             {forecast?.list?.length ? (
-              <HourlyForecast forecastItems={forecast?.list} unit={unit} />
+              <>
+                <HourlyForecast forecastItems={forecast.list} unit={unit} />
+
+                {groupedForecast.length > 0 && (
+                  <DailyForecast
+                    dailyForecast={groupedForecast}
+                    selectedDay={selectedDay}
+                    unit={unit}
+                    onDaySelect={handleDaySelect}
+                  />
+                )}
+              </>
             ) : null}
           </>
         )}
@@ -108,12 +138,6 @@ const Title = styled.h1`
 const SearchRow = styled.div`
   display: flex;
   flex-direction: column;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
 `;
 
 const Content = styled.main``;

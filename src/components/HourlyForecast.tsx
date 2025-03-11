@@ -27,11 +27,12 @@ const HourlyForecast: React.FC<IHourlyForecastProps> = ({ forecastItems, unit })
 };
 
 const Container = styled.div`
-  background-color: ${({ theme }) => theme.colors.lightBackground};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.boxShadow};
+  background-color: #ffffff;
+  border-radius: 8px;
   padding: 20px;
   margin-bottom: 20px;
+  max-width: 750px;
+  width: 100%;
 `;
 
 const Title = styled.h2`
@@ -45,20 +46,6 @@ const ScrollableContainer = styled.div`
   overflow-x: auto;
   gap: 15px;
   padding-bottom: 10px;
-
-  &::-webkit-scrollbar {
-    height: 5px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 10px;
-  }
 `;
 
 const ForecastItem = styled.div`
@@ -70,7 +57,7 @@ const ForecastItem = styled.div`
 
 const Time = styled.span`
   font-size: 14px;
-  color: ${({ theme }) => theme.colors.lightText};
+  color: #757575;
   margin-bottom: 5px;
 `;
 

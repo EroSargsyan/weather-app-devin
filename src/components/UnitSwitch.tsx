@@ -26,7 +26,7 @@ const Container = styled.div`
 
 const Label = styled.span`
   font-size: 14px;
-  color: ${({ theme }) => theme.colors.lightText};
+  color: #757575;
 `;
 
 const SwitchContainer = styled.div`
@@ -36,23 +36,16 @@ const SwitchContainer = styled.div`
   overflow: hidden;
 `;
 
-interface UnitButtonProps {
+const UnitButton = styled.button<{
   active: boolean;
-}
-
-const UnitButton = styled.button<UnitButtonProps>`
+}>`
   padding: 5px 15px;
-  background-color: ${({ active, theme }) => (active ? theme.colors.primary : 'transparent')};
+  background-color: ${({ active }) => (active ? '#2196F3' : 'rgb(213, 208, 208)')};
   color: ${({ active }) => (active ? 'white' : '#333333')};
   border: none;
   font-size: 14px;
   font-weight: 500;
   cursor: ${({ active }) => (active ? 'default' : 'pointer')};
-  transition: ${({ theme }) => theme.transition};
-
-  &:hover:not(:disabled) {
-    background-color: ${({ active, theme }) => (active ? theme.colors.primary : '#e0e0e0')};
-  }
 `;
 
 export default UnitSwitch;

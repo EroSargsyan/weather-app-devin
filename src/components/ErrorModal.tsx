@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { IErrorModalProps } from '../types/types';
 
-const ErrorModal: React.FC<IErrorModalProps> = ({ message, onClose }) => {
+const ErrorModal: React.FC<IErrorModalProps> = ({ onClose }) => {
   return (
     <Overlay onClick={onClose}>
       <ModalContent>
         <Title>Error</Title>
-        <Message>{message}</Message>
+        <Message>City not found</Message>
         <Button onClick={onClose}>Close</Button>
       </ModalContent>
     </Overlay>
@@ -28,7 +28,7 @@ const Overlay = styled.div`
 
 const ModalContent = styled.div`
   background-color: white;
-  border-radius: ${({ theme }) => theme.borderRadius};
+  border-radius: 8px;
   padding: 20px;
   max-width: 90%;
   width: 400px;
@@ -38,7 +38,7 @@ const ModalContent = styled.div`
 const Title = styled.h2`
   font-size: 20px;
   margin-bottom: 10px;
-  color: ${({ theme }) => theme.colors.error};
+  color: #f44336;
 `;
 
 const Message = styled.p`
@@ -49,14 +49,12 @@ const Message = styled.p`
 
 const Button = styled.button`
   padding: 10px 20px;
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: #2196f3;
   color: white;
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius};
+  border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
-  transition: ${({ theme }) => theme.transition};
-
   &:hover {
     background-color: #1976d2;
   }

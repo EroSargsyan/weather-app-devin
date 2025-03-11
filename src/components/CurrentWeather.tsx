@@ -17,7 +17,7 @@ const CurrentWeather: React.FC<ICurrentWeatherProps> = ({ data, unit }) => {
         <Temperature>{formatTemperature(data.main.temp, unit)}</Temperature>
         <WeatherDescription>
           <WeatherIcon
-            src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`}
+            src={`https://openweathermap.org/img/wn/${data.weather[0].icon}.png`}
             alt={data.weather[0].description}
           />
           <span>{data.weather[0].description}</span>
@@ -28,11 +28,12 @@ const CurrentWeather: React.FC<ICurrentWeatherProps> = ({ data, unit }) => {
 };
 
 const Container = styled.div`
-  background-color: ${({ theme }) => theme.colors.lightBackground};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: ${({ theme }) => theme.boxShadow};
   padding: 20px;
   margin-bottom: 20px;
+  max-width: 350px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 8px;
 `;
 
 const Header = styled.div`
@@ -52,8 +53,7 @@ const WeatherInfo = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+  @media (max-width: 576px) {
     flex-direction: column;
     align-items: flex-start;
   }

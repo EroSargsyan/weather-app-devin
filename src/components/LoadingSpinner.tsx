@@ -26,7 +26,7 @@ const Loader = styled.div`
   width: 50px;
   height: 50px;
   border: 5px solid #f3f3f3;
-  border-top: 5px solid ${({ theme }) => theme.colors.primary};
+  border-top: 5px solid #2196f3;
   border-radius: 50%;
   animation: ${spin} 1s linear infinite;
   margin-bottom: 20px;
@@ -34,7 +34,7 @@ const Loader = styled.div`
 
 const LoadingText = styled.p`
   font-size: 16px;
-  color: ${({ theme }) => theme.colors.lightText};
+  color: #757575;
 `;
 
 export default LoadingSpinner;
