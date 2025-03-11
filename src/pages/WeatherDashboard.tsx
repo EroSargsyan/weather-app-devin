@@ -7,6 +7,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorModal from '../components/ErrorModal';
 import SearchBar from '../components/SearchBar';
 import UnitSwitch from '../components/UnitSwitch';
+import CurrentWeather from '../components/CurrentWeather';
+import HourlyForecast from '../components/HourlyForecast';
 
 const WeatherDashboard: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -68,7 +70,19 @@ const WeatherDashboard: React.FC = () => {
         </SearchRow>
       </Header>
 
-      <Content>{isLoading ? <LoadingSpinner /> : <></>}</Content>
+      <Content>
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            {currentWeather ? <CurrentWeather data={currentWeather} unit={unit} /> : null}
+
+            {forecast?.list?.length ? (
+              <HourlyForecast forecastItems={forecast?.list} unit={unit} />
+            ) : null}
+          </>
+        )}
+      </Content>
 
       {showError && error && <ErrorModal message={error} onClose={handleCloseError} />}
     </Container>
