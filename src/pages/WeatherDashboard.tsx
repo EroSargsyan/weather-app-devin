@@ -7,7 +7,6 @@ import {
   setSelectedDay,
   toggleUnit,
 } from '../store/weatherSlice';
-
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorModal from '../components/ErrorModal';
 import SearchBar from '../components/SearchBar';
@@ -67,7 +66,7 @@ const WeatherDashboard: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (forecast && forecast.list && forecast.list.length > 0) {
+    if (forecast?.list?.length) {
       const grouped = groupForecastByDay(forecast.list);
       setGroupedForecast(grouped);
     }
@@ -89,7 +88,7 @@ const WeatherDashboard: React.FC = () => {
         </SearchRow>
       </Header>
 
-      <Content>
+      <main>
         {isLoading ? (
           <LoadingSpinner />
         ) : (
@@ -112,7 +111,7 @@ const WeatherDashboard: React.FC = () => {
             ) : null}
           </>
         )}
-      </Content>
+      </main>
 
       {showError && error && <ErrorModal message={error} onClose={handleCloseError} />}
     </Container>
@@ -139,7 +138,5 @@ const SearchRow = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
-const Content = styled.main``;
 
 export default WeatherDashboard;
