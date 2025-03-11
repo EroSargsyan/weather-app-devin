@@ -5,6 +5,7 @@ import { store } from './store';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './styles/GlobalStyles';
 import { theme } from './styles/theme';
+import WeatherDashboard from './pages/WeatherDashboard';
 
 const App: React.FC = () => {
   return (
@@ -13,7 +14,7 @@ const App: React.FC = () => {
         <GlobalStyles />
         <Router>
           <Routes>
-            <Route path="/" element={<></>} />
+            <Route path="/" element={<WeatherDashboard />} />
           </Routes>
         </Router>
       </ThemeProvider>
