@@ -6,7 +6,7 @@ const ErrorModal: React.FC<IErrorModalProps> = ({ onClose }) => {
     <Overlay onClick={onClose}>
       <ModalContent>
         <Title>Error</Title>
-        <Message>City not found</Message>
+        <Message>Location not found</Message>
         <Button onClick={onClose}>Close</Button>
       </ModalContent>
     </Overlay>

@@ -76,7 +76,6 @@ export interface IWeatherState {
 }
 
 export interface IErrorModalProps {
-  message: string;
   onClose: () => void;
 }
 

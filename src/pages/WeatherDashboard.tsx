@@ -112,8 +112,7 @@ const WeatherDashboard: React.FC = () => {
           </>
         )}
       </main>
-
-      {showError && error && <ErrorModal message={error} onClose={handleCloseError} />}
+      {showError && error && <ErrorModal onClose={handleCloseError} />}
     </Container>
   );
 };
